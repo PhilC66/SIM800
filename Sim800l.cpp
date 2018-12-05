@@ -151,7 +151,7 @@ byte Sim800l::ListPhoneBook(){
 	_buffer=_readSerial();
 	int p1 = _buffer.lastIndexOf(F("+CPBR:"));
 	int p2 = _buffer.lastIndexOf(",", p1);
-	byte i=(_buffer.substring(p1 + 7, p2).toInt();
+	byte i=(_buffer.substring(p1 + 7, p2)).toInt();
 	return i;	
 }
 
