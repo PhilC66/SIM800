@@ -159,7 +159,11 @@ byte Sim800l::getNumSms(){ // number of sms in memory
 	// ModeText();
 	Serial2.println(F("AT+CPMS?"));
 	_buffer=_readSerial();
-	byte i = (_buffer.substring(_buffer.indexOf(char(44))+1,_buffer.indexOf(","))).toInt();
+	// Serial.println(_buffer);
+	int p1 = _buffer.indexOf(F(","));
+	int p2 = _buffer.indexOf(F(","), p1+1);
+	byte i = (_buffer.substring(p1 + 1, p2)).toInt();
+	// Serial.printf("p1=%d, p2=%d, i=%d\n",p1,p2,i);
 	return i;
 }
 
