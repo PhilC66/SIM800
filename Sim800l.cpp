@@ -28,8 +28,6 @@
  *        
  *	Modification PhC 25/10/2018
  *  Reset diode entre RESET SIM800 A et Sortie ESP32 K
- *
- * A ajouter PowerDown AT+CPOWD=1, http://m2msupport.net/m2msupport/atcpowd-power-off/
 */
 #include "Arduino.h"
 #include "Sim800l.h"
@@ -275,10 +273,12 @@ void Sim800l::sleep(){
 	AT+CSCLK=1 entre en mode avion
 	sleep faible consommation
 	reveil par Sim800l.reset(PIN)
+	PowerDown AT+CPOWD=1
   */
   // Serial2.print (F("AT+CFUN=1\r\n"));
-	Serial2.println (F("AT+CSCLK=1"));
-}
+	// Serial2.println (F("AT+CSCLK=1"));
+	Serial2.println (F("AT+CPOWD=1"));
+	}
 
 byte Sim800l::getRSSI(){
 /*Response
