@@ -86,7 +86,7 @@ class Sim800l
 	String getIMEI();
 	String getPhoneBookNumber(uint8_t i);
 	String getPhoneBookName(uint8_t i);
-	void sleep();
+	bool sleep();
 };
 
 #endif 

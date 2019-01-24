@@ -267,18 +267,24 @@ void Sim800l::setPhoneFunctionality(int n){
 	Serial2.print(F("\r\n"));
 }
 
-void Sim800l::sleep(){
-  /*AT+CSCLK=?
+bool Sim800l::sleep(){
+	/*AT+CSCLK=?
 	0 si marche
 	AT+CSCLK=1 entre en mode avion
 	sleep faible consommation
 	reveil par Sim800l.reset(PIN)
 	PowerDown AT+CPOWD=1
-  */
-  // Serial2.print (F("AT+CFUN=1\r\n"));
-	// Serial2.println (F("AT+CSCLK=1"));
-	Serial2.println (F("AT+CPOWD=1"));
+	*/
+	// Serial2.println (F("AT+CPOWD=1")); // ne marche pas
+	Serial2.println (F("AT+CSCLK=2"));
+	_buffer=_readSerial();at
+	if((_buffer.indexOf("OK"))!=-1){
+		return true;
+	}   
+	else{
+		return false;
 	}
+}
 
 byte Sim800l::getRSSI(){
 /*Response
