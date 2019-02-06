@@ -277,11 +277,8 @@ bool Sim800l::sleep(){
 	*/
 	// Serial2.println (F("AT+CPOWD=1")); // ne marche pas
 	Serial2.println (F("AT+CSCLK=2"));
-<<<<<<< HEAD
+
 	_buffer=_readSerial();
-=======
-	_buffer=_readSerial();at
->>>>>>> ee0998a90d9de84133d4457cb55694c21a351827
 	if((_buffer.indexOf("OK"))!=-1){
 		return true;
 	}   
