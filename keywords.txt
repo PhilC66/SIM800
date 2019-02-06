@@ -1,0 +1,49 @@
+  
+#######################################
+# Syntax Coloring Map For 
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+BattVoltage	KEYWORD2
+BattPct KEYWORD2
+getNetworkStatus KEYWORD2
+getIMEI KEYWORD2
+getNetworkName KEYWORD2
+getetatSIM KEYWORD2
+ModeText KEYWORD2
+WritePhoneBook KEYWORD2
+ListPhoneBook KEYWORD2
+getNumSms KEYWORD2
+getIndexSms KEYWORD2
+getPhoneBookNumber KEYWORD2
+getPhoneBookName KEYWORD2
+reset KEYWORD2
+setPhoneFunctionality KEYWORD2
+sleep KEYWORD2
+getRSSI KEYWORD2
+activateBearerProfile KEYWORD2
+deactivateBearerProfile KEYWORD2
+answerCall KEYWORD2
+callNumber KEYWORD2
+getCallStatus KEYWORD2
+hangoffCall KEYWORD2
+sendSms KEYWORD2
+getNumberSms KEYWORD2
+getNameSms KEYWORD2
+readSms KEYWORD2
+delAllSms KEYWORD2
+delSms KEYWORD2
+RTCtime KEYWORD2
+dateNet KEYWORD2
+updateRtc KEYWORD2
+#######################################
+# Constants (LITERAL1)
+#######################################
