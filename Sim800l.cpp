@@ -57,6 +57,15 @@ String Sim800l::_readSerial(){
   }
 }
 
+bool Sim800l::_reponse(String rep){	
+	if ((_buffer.indexOf(rep) ) != -1){
+		return true;
+	}
+  else{
+		return false;
+	}
+}
+
 //
 //PUBLIC METHODS
 //
@@ -118,12 +127,13 @@ bool Sim800l::getetatSIM(){
 	Serial2.println (F("AT+CPIN?"));
 	_buffer=_readSerial();
 	// Serial.println(_buffer);
-	if(_buffer.indexOf(F("READY")) >-1){
-		return true;
-	}
-	else{
-		return false;
-	}
+	return _reponse(F("READY"));
+	// if(_buffer.indexOf(F("READY")) >-1){
+		// return true;
+	// }
+	// else{
+		// return false;
+	// }
 }
 
 bool Sim800l::ModeText(){
@@ -135,12 +145,13 @@ bool Sim800l::WritePhoneBook(String message){
 	// Serial2.print(F("AT+CPBW="));
 	Serial2.println(message);
 	_buffer=_readSerial();
-  if ( (_buffer.indexOf("OK") ) != -1){
-		return true;
-	}
-  else{
-		return false;
-	}
+	return _reponse(F("OK"));
+  // if ( (_buffer.indexOf(F("OK")) ) != -1){
+		// return true;
+	// }
+  // else{
+		// return false;
+	// }
 }
 
 byte Sim800l::ListPhoneBook(){
@@ -227,7 +238,7 @@ void Sim800l::reset(int pin){
 	
 	_buffer=_readSerial();
 	time = millis();
-	while(!(_buffer.indexOf("OK") > -1) && !(_buffer.indexOf("AT") > -1)){
+	while(!(_buffer.indexOf(F("OK")) > -1) && !(_buffer.indexOf("AT") > -1)){
 		_buffer=_readSerial();
 		delay(100);
 		if(millis()-time > timeout) break;
@@ -243,7 +254,7 @@ void Sim800l::reset(int pin){
 	}
 	Serial.println(_buffer);
 	time = millis();
-  while (_readSerial().indexOf("READY")==-1 ){//SMS ou CALL
+  while (_readSerial().indexOf(F("READY"))==-1 ){//SMS ou CALL
 		if(millis()-time > timeout) break;
 	}
 	
@@ -278,12 +289,13 @@ bool Sim800l::sleep(){
 	Serial2.println (F("AT+CSCLK=2"));
 
 	_buffer=_readSerial();
-	if((_buffer.indexOf("OK"))!=-1){
-		return true;
-	}   
-	else{
-		return false;
-	}
+	return _reponse(F("OK"));
+	// if((_buffer.indexOf(F("OK")))!=-1){
+		// return true;
+	// }   
+	// else{
+		// return false;
+	// }
 }
 
 byte Sim800l::getRSSI(){
@@ -328,9 +340,10 @@ void Sim800l::deactivateBearerProfile(){
 bool Sim800l::answerCall(){
    Serial2.print (F("ATA\r\n"));
    _buffer=_readSerial();
-   //Response in case of data call, if successfully connected 
-   if ( (_buffer.indexOf("OK") )!=-1 ) return true;  
-   else return false;
+   //Response in case of data call, if successfully connected
+	 return _reponse(F("OK"));
+   // if ( (_buffer.indexOf(F("OK")) )!=-1 ) return true;  
+   // else return false;
 }
 
 
@@ -358,8 +371,9 @@ uint8_t Sim800l::getCallStatus(){
 bool Sim800l::hangoffCall(){
   Serial2.print (F("ATH\r\n"));
   _buffer=_readSerial();
-  if ( (_buffer.indexOf("OK") ) != -1) return true;
-  else return false;
+	return _reponse(F("OK"));
+  // if ( (_buffer.indexOf(F("OK")) ) != -1) return true;
+  // else return false;
 }
 
 boolean Sim800l::sendSms(char *number, char *text) {
@@ -445,7 +459,8 @@ String Sim800l::readSms(uint8_t index){
 bool Sim800l::delAllSms(){ 
   Serial2.print(F("AT+CMGDA=\"del all\"\n\r"));
   _buffer=_readSerial();
-  if (_buffer.indexOf("OK")!=-1) {return true;}else {return false;}
+	return _reponse(F("OK"));
+  // if (_buffer.indexOf(F("OK"))!=-1) {return true;}else {return false;}
 }
 
 bool Sim800l::delSms(int index){ 
@@ -453,7 +468,8 @@ bool Sim800l::delSms(int index){
 	Serial2.print(index);
 	Serial2.print("\r");
   _buffer=_readSerial();
-  if (_buffer.indexOf("OK")!=-1) {return true;}else {return false;}
+  return _reponse(F("OK"));
+	// if (_buffer.indexOf(F("OK"))!=-1) {return true;}else {return false;}
 }
 
 void Sim800l::RTCtime(int *day,int *month, int *year,int *hour,int *minute, int *second){
@@ -480,8 +496,8 @@ String Sim800l::dateNet() {
   Serial2.print(F("AT+CIPGSMLOC=2,1\r\n "));
   _buffer=_readSerial();
 
-  if (_buffer.indexOf("OK")!=-1 ){
-    return _buffer.substring(_buffer.indexOf(":")+2,(_buffer.indexOf("OK")-4));
+  if (_buffer.indexOf(F("OK"))!=-1 ){
+    return _buffer.substring(_buffer.indexOf(":")+2,(_buffer.indexOf(F("OK"))-4));
   } else
   return "0";      
 }

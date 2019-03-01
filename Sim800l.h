@@ -47,7 +47,8 @@ class Sim800l
 	int _timeout;
 	String _buffer;
 	String _readSerial();  	
-  	
+	bool   _reponse(String rep);
+
   public:
 	
  	void begin();	
