@@ -48,13 +48,12 @@ void Sim800l::begin() {
 //
 String Sim800l::_readSerial(){
   _timeout=0;
-  while  (!Serial2.available() && _timeout < 12000  ) 
-  {
+  while(!Serial2.available() && _timeout < 12000){
     delay(13);
     _timeout++;
   }
-  if (Serial2.available()) {
- 	return Serial2.readString();
+  if (Serial2.available()){
+		return Serial2.readString();
   }
 }
 
