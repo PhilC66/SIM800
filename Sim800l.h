@@ -30,7 +30,6 @@
 */
 #ifndef Sim800l_h
 #define Sim800l_h
-// #include <SoftwareSerial.h>
 #include "Arduino.h"
 
 
@@ -40,8 +39,7 @@
 #define LED_PIN 5 //pin to indicate states. 
 
 
-class Sim800l	
-{									
+class Sim800l {
   private:
 	
 	int _timeout;

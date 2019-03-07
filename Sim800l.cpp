@@ -31,7 +31,6 @@
 */
 #include "Arduino.h"
 #include "Sim800l.h"
-// #include <SoftwareSerial.h>
 
 
 void Sim800l::begin() {
