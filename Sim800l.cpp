@@ -503,6 +503,15 @@ void Sim800l::RTCtime(int *day,int *month, int *year,int *hour,int *minute, int 
  }
 }
 
+bool Sim800l::SetTime(String mytime){
+	String _temp = F("AT+CCLK=\"");
+	_temp += mytime + "\"\r\n";
+	Serial.print(_temp);
+	Serial2.print(_temp);
+	_buffer=_readSerial();
+	return _reponse(F("OK"));
+}
+
 //Get the time  of the base of GSM
 String Sim800l::dateNet() {
   Serial2.print(F("AT+CIPGSMLOC=2,1\r\n "));

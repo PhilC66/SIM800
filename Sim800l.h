@@ -75,8 +75,9 @@ class Sim800l {
 	void   activateBearerProfile();
 	void   deactivateBearerProfile();
 	void   RTCtime(int *day,int *month, int *year,int *hour,int *minute, int *second);//get time with the variables by reference 
-	String dateNet();                       //return date,time, of the network
-	bool   updateRtc(int utc);              //Update the RTC Clock with de Time AND Date of red-.
+	String dateNet();                       // return date,time, of the network
+	bool   updateRtc(int utc);              // Update the RTC Clock with de Time AND Date of red-.
+	bool   SetTime(String mytime);          // Set time
 	int    BattVoltage();                   // batterie en mV
 	byte   BattPct();                       // batterie en %
 	byte   getNetworkStatus();
