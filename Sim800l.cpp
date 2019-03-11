@@ -118,7 +118,7 @@ String Sim800l::getNetworkName(){
 	if(_buffer.indexOf(F("COPS:"))>-1){
 		byte idx1 = _buffer.indexOf("\"");
 		byte idx2 = _buffer.indexOf("\"",idx1+1);
-		return _buffer.substring(idx1+1,idx2-1);
+		return _buffer.substring(idx1+1,idx2);
 	}
 }
 
@@ -253,9 +253,9 @@ void Sim800l::reset(int pin){
 	}
 	Serial.println(_buffer);
 	time = millis();
-  while (_readSerial().indexOf(F("READY"))==-1 ){//SMS ou CALL
-		if(millis()-time > timeout) break;
-	}
+  // while (_readSerial().indexOf(F("READY"))==-1 ){//SMS ou CALL, supprimé blocage avec SFR si pas de code PIN
+		// if(millis()-time > timeout) break;
+	// }
 	
   #if (LED)
     digitalWrite(LED_PIN,1);
@@ -437,6 +437,19 @@ String Sim800l::getNameSms(uint8_t index){//PhC
   }
 }
 
+String Sim800l::getTimeSms(uint8_t index){//PhC
+  _buffer=readSms(index);
+  if (_buffer.length() > 10) //avoid empty sms
+  {
+    uint8_t _idx1=_buffer.indexOf("+CMGR:");
+    _idx1=_buffer.indexOf("\",\"",_idx1+1);
+		_idx1=_buffer.indexOf("\",\"",_idx1+1);
+		_idx1=_buffer.indexOf("\",\"",_idx1+1);
+		return _buffer.substring(_idx1+3,_buffer.lastIndexOf("\""));
+  }else{
+    return "";
+  }
+}
 
 String Sim800l::readSms(uint8_t index){
   Serial2.print (F("AT+CMGF=1\r")); 

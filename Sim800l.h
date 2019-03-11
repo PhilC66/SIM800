@@ -62,6 +62,7 @@ class Sim800l {
 	String readSms(uint8_t index);          // return all the content of sms
 	String getNumberSms(uint8_t index);     // return the number of the sms..
 	String getNameSms(uint8_t index);       // return name of sms number if exist in phone book PhC
+	String getTimeSms(uint8_t index);       // return time of sms "yy/MM/dd,hh:mm:ss-z"
 	bool   WritePhoneBook(String message);  // ecriture entrée Phone Book
 	bool   delAllSms();                     // return :  OK or ERROR ..
 	bool   delSms(int index);               // return :  OK or ERROR ..
