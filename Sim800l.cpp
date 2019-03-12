@@ -127,12 +127,23 @@ bool Sim800l::getetatSIM(){
 	_buffer=_readSerial();
 	// Serial.println(_buffer);
 	return _reponse(F("READY"));
-	// if(_buffer.indexOf(F("READY")) >-1){
-		// return true;
-	// }
-	// else{
-		// return false;
-	// }
+}
+
+String Sim800l::getNumTel(){ // lire le num tel de la SIM
+/* Attention il faut que le PB "ON" soit renseigné
+	AT+CPBS="ON"
+	AT+CPBR=1,"+336xxxxxxxx",145,"un identifiant"
+	retour sur le PB utilisé
+	AT+CPBS="SM"
+	AT+CNUM envoie +CNUM: "un identifiant","+336xxxxxxxx",145,0,4
+*/
+	Serial2.println (F("AT+CNUM"));
+	_buffer=_readSerial();
+	if(_buffer.indexOf(F("CNUM:"))>-1){
+		byte _idx1=_buffer.indexOf("\",\"");
+		byte _idx2 = _buffer.indexOf("\"",_idx1+3);
+		return _buffer.substring(_idx1+3,_idx2);
+	}
 }
 
 bool Sim800l::ModeText(){
@@ -145,12 +156,6 @@ bool Sim800l::WritePhoneBook(String message){
 	Serial2.println(message);
 	_buffer=_readSerial();
 	return _reponse(F("OK"));
-  // if ( (_buffer.indexOf(F("OK")) ) != -1){
-		// return true;
-	// }
-  // else{
-		// return false;
-	// }
 }
 
 byte Sim800l::ListPhoneBook(){
@@ -253,7 +258,7 @@ void Sim800l::reset(int pin){
 	}
 	Serial.println(_buffer);
 	time = millis();
-  // while (_readSerial().indexOf(F("READY"))==-1 ){//SMS ou CALL, supprimé blocage avec SFR si pas de code PIN
+  // while (_readSerial().indexOf(F("READY"))==-1 ){//SMS ou CALL, supprimÃ© blocage avec SFR si pas de code PIN
 		// if(millis()-time > timeout) break;
 	// }
 	
@@ -289,12 +294,6 @@ bool Sim800l::sleep(){
 
 	_buffer=_readSerial();
 	return _reponse(F("OK"));
-	// if((_buffer.indexOf(F("OK")))!=-1){
-		// return true;
-	// }   
-	// else{
-		// return false;
-	// }
 }
 
 byte Sim800l::getRSSI(){

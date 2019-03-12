@@ -87,6 +87,7 @@ class Sim800l {
 	String getPhoneBookNumber(uint8_t i);
 	String getPhoneBookName(uint8_t i);
 	bool   sleep();                         // goto sleep mode
+	String getNumTel();                     // lire le num tel de la SIM
 };
 
 #endif 
