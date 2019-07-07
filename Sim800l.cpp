@@ -162,7 +162,7 @@ byte Sim800l::ListPhoneBook(){
 	Serial2.println(F("AT+CPBR=1,10"));
 	_buffer=_readSerial();
 	int p1 = _buffer.lastIndexOf(F("+CPBR:"));
-	int p2 = _buffer.lastIndexOf(",", p1);
+	int p2 = _buffer.indexOf(",", p1);
 	byte i=(_buffer.substring(p1 + 7, p2)).toInt();
 	return i;	
 }
