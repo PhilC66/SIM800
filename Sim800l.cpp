@@ -148,6 +148,7 @@ String Sim800l::getNumTel(){ // lire le num tel de la SIM
 
 bool Sim800l::ModeText(){
 	Serial2.println(F("AT+CMGF=1"));
+  _buffer=_readSerial();
 	return true;
 }
 
@@ -168,7 +169,7 @@ byte Sim800l::ListPhoneBook(){
 }
 
 byte Sim800l::getNumSms(){ // number of sms in memory
-	// ModeText();
+	ModeText();
 	Serial2.println(F("AT+CPMS?"));
 	_buffer=_readSerial();
 	// Serial.println(_buffer);
@@ -180,11 +181,15 @@ byte Sim800l::getNumSms(){ // number of sms in memory
 }
 
 byte Sim800l::getIndexSms(){ // index of sms in memory
+  ModeText();
+  // Serial2.println(F("AT+CMGF=1"));
+  // _buffer=_readSerial();
 	Serial2.println(F("AT+CMGL=\"ALL\""));
 	_buffer=_readSerial();
 	int p1 = _buffer.lastIndexOf(F("+CMGL:"));
 	int p2 = _buffer.indexOf(F(","), p1);
 	byte i=(_buffer.substring(p1 + 7, p2)).toInt();
+  // Serial.print("getindexsms ="),Serial.println(_buffer.substring(p1 + 7, p2));
 	return i;
 }
 
@@ -265,6 +270,7 @@ void Sim800l::reset(int pin){
   #if (LED)
     digitalWrite(LED_PIN,1);
   #endif
+  // ModeText();
 }
 
 void Sim800l::setPhoneFunctionality(int n){
@@ -376,7 +382,8 @@ bool Sim800l::hangoffCall(){
 
 boolean Sim800l::sendSms(char *number, char *text) {
 	int timeout = 12000;
-	Serial2.print (F("AT+CMGF=1\r")); //set sms to text mode  
+  ModeText();
+	// Serial2.print (F("AT+CMGF=1\r")); //set sms to text mode
   char sendcmd[30] = "AT+CMGS=\"";
   strncpy(sendcmd+9, number, 30-9-2);  // 9 bytes beginning, 2 bytes for close quote + null
   sendcmd[strlen(sendcmd)] = '\"';
@@ -451,7 +458,8 @@ String Sim800l::getTimeSms(uint8_t index){//PhC
 }
 
 String Sim800l::readSms(uint8_t index){
-  Serial2.print (F("AT+CMGF=1\r")); 
+  // ModeText(); //ne marche pas ici!
+  Serial2.print (F("AT+CMGF=1\r"));
   if (( _readSerial().indexOf("ER")) ==-1) {
     Serial2.print (F("AT+CMGR="));
     Serial2.print (index);
@@ -461,7 +469,7 @@ String Sim800l::readSms(uint8_t index){
       return _buffer;
     }
     else return "";    
-    }
+  }
   else
     return "";
 }
