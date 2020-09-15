@@ -156,6 +156,7 @@ bool Sim800l::WritePhoneBook(String message){
 	// Serial2.print(F("AT+CPBW="));
 	Serial2.println(message);
 	_buffer=_readSerial();
+  Serial.println(_buffer);
 	return _reponse(F("OK"));
 }
 
@@ -327,11 +328,19 @@ subclause 7.2.4
 }
 
 
-void Sim800l::activateBearerProfile(){
+void Sim800l::activateBearerProfile(char* apn){
   Serial2.print (F(" AT+SAPBR=3,1,\"CONTYPE\",\"GPRS\" \r\n" ));_buffer=_readSerial();  // set bearer parameter 
-  Serial2.print (F(" AT+SAPBR=3,1,\"APN\",\"websfr\" \r\n" ));_buffer=_readSerial(); // set apn  
+  // Serial.println(_buffer);
+  String temp = F(" AT+SAPBR=3,1,\"APN\",\"");
+  temp += String(apn);
+  temp += "\" \r\n";
+  Serial2.print (temp);_buffer=_readSerial(); // set apn  websfr
+  // Serial2.print (F(" AT+SAPBR=3,1,\"APN\",\"sl2sfr\" \r\n" ));_buffer=_readSerial(); // set apn  websfr
+  // Serial.println(_buffer);
   Serial2.print (F(" AT+SAPBR=1,1 \r\n"));delay(1200);_buffer=_readSerial();// activate bearer context
+  // Serial.println(_buffer);
   Serial2.print (F(" AT+SAPBR=2,1\r\n "));delay(3000);_buffer=_readSerial(); // get context ip address
+  // Serial.println(_buffer);
 }
 
 
@@ -533,7 +542,7 @@ String Sim800l::dateNet() {
 // Update the RTC of the module with the date of GSM. 
 bool Sim800l::updateRtc(int utc){
   
-  activateBearerProfile();
+  activateBearerProfile("apn");// si utilisé renseigner "apn" 
   _buffer=dateNet();
   deactivateBearerProfile();
   

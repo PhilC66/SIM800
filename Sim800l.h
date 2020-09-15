@@ -72,7 +72,7 @@ class Sim800l {
 	byte   getIndexSms();                   // index of last sms in memory
 	byte   getRSSI();
 	void   setPhoneFunctionality(int n);
-	void   activateBearerProfile();
+	void   activateBearerProfile(char* apn);
 	void   deactivateBearerProfile();
 	void   RTCtime(int *day,int *month, int *year,int *hour,int *minute, int *second);//get time with the variables by reference 
 	String dateNet();                       // return date,time, of the network
